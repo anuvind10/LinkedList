@@ -1,4 +1,4 @@
-import * as index from "./index";
+import { LinkedList } from "./index.js";
 
 // example uses class syntax - adjust as necessary
 const list = new LinkedList();
