@@ -1,5 +1,5 @@
 export class LinkedList {
-  constructor(head, tail, count) {
+  constructor() {
     this.head = null;
     this.tail = null;
     this.count = 0;
@@ -35,6 +35,11 @@ export class LinkedList {
 
   //   return the node at the requested index
   at(index) {
+    if (index < 0) {
+      return "Index cannot be less than 0";
+    } else if (index >= this.count) {
+      return "Index out of bound";
+    }
     let counter = 0;
     let i = this.head;
     while (i) {
@@ -48,9 +53,13 @@ export class LinkedList {
 
   //   Remove the last node of the linked list
   pop() {
+    if (this.tail === null && this.head === null) {
+      return "The list is empty. Cannot pop.";
+    }
     if (this.tail === this.head) {
       this.tail = null;
       this.head = null;
+      this.count--;
     } else {
       let newTailIndex = this.count - 2;
       let counter = 0;
@@ -110,46 +119,75 @@ export class LinkedList {
 
   // insert a new node at given index
   insertAt(value, index) {
+    if (index < 0) {
+      return "index cannot be less than 0";
+    }
+    if (index > this.count) {
+      this.append(value);
+      return "Inserted at the end of the list";
+    }
     let newNode = new Node(value);
     let counter = 0;
     let i = this.head;
     let prevNode;
     let nextNode;
 
-    while (i) {
-      if (counter === index - 1) {
-        prevNode = i;
-      } else if (counter === index) {
-        nextNode = i;
-        break;
+    if (index === 0) {
+      nextNode = i;
+      newNode.next = nextNode;
+      this.head = newNode;
+      this.count++;
+      return;
+    } else {
+      while (i) {
+        if (counter === index - 1) {
+          prevNode = i;
+        } else if (counter === index) {
+          nextNode = i;
+          break;
+        }
+        i = i.next;
+        counter++;
       }
-      i = i.next;
-      counter++;
     }
 
     prevNode.next = newNode;
     newNode.next = nextNode;
+    this.count++;
   }
 
   // remove element at a specific index
   removeAt(index) {
+    if (index < 0) {
+      return "Index cannot be less than 0";
+    } else if (index >= this.count) {
+      this.pop();
+      return "removed last element";
+    }
     let counter = 0;
     let i = this.head;
     let prevNode;
     let nextNode;
 
-    while (i) {
-      if (counter === index - 1) {
-        prevNode = i;
-      } else if (counter === index + 1) {
-        nextNode = i;
-        break;
+    if (index === 0) {
+      this.head = i.next;
+      this.count--;
+      return;
+    } else {
+      while (i) {
+        if (counter === index - 1) {
+          prevNode = i;
+        } else if (counter === index + 1) {
+          nextNode = i;
+          break;
+        }
+        i = i.next;
+        counter++;
       }
-      i = i.next;
-      counter++;
-    }
 
-    prevNode.next = nextNode;
+      prevNode.next = nextNode;
+      this.count--;
+    }
   }
 }
 
