@@ -107,6 +107,50 @@ export class LinkedList {
     listString += " null";
     return listString;
   }
+
+  // insert a new node at given index
+  insertAt(value, index) {
+    let newNode = new Node(value);
+    let counter = 0;
+    let i = this.head;
+    let prevNode;
+    let nextNode;
+
+    while (i) {
+      if (counter === index - 1) {
+        prevNode = i;
+      } else if (counter === index) {
+        nextNode = i;
+        break;
+      }
+      i = i.next;
+      counter++;
+    }
+
+    prevNode.next = newNode;
+    newNode.next = nextNode;
+  }
+
+  // remove element at a specific index
+  removeAt(index) {
+    let counter = 0;
+    let i = this.head;
+    let prevNode;
+    let nextNode;
+
+    while (i) {
+      if (counter === index - 1) {
+        prevNode = i;
+      } else if (counter === index + 1) {
+        nextNode = i;
+        break;
+      }
+      i = i.next;
+      counter++;
+    }
+
+    prevNode.next = nextNode;
+  }
 }
 
 class Node {
